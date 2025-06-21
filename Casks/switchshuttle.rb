@@ -1,6 +1,5 @@
 cask "switchshuttle" do
   version "1.5.0"
-  sha256 :no_check
 
   if Hardware::CPU.intel?
     url "https://github.com/s00d/switchshuttle/releases/download/app-v#{version}/switch-shuttle_#{version}_x64.dmg"
