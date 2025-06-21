@@ -1,5 +1,5 @@
 cask "switchshuttle" do
-  version "1.5.0"
+  version "1.5"
 
   if Hardware::CPU.intel?
     url "https://github.com/s00d/switchshuttle/releases/download/app-v#{version}/switch-shuttle_#{version}_x64.dmg"
@@ -10,7 +10,7 @@ cask "switchshuttle" do
   end
 
   name "SwitchShuttle"
-  desc "Cross-platform terminal command manager with global hotkeys"
+  desc "Cross-platform terminal command manager with global hotkeys - organize, customize, and quickly access your most-used terminal operations with a sleek interface"
   homepage "https://github.com/s00d/switchshuttle"
 
   app "switch-shuttle.app"
@@ -21,7 +21,7 @@ cask "switchshuttle" do
     system_command "codesign", args: ["--force", "--deep", "--sign", "-", "/Applications/switch-shuttle.app"]
   end
 
-  # Раскомментируйте следующие строки, если хотите удалять конфигурацию при uninstall
+  # Uncomment the following lines if you want to remove configuration on uninstall
   # zap trash: [
   #   "~/.config/switch-shuttle",
   #   "~/Library/Application Support/switch-shuttle",
