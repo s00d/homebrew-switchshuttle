@@ -13,12 +13,12 @@ cask "switchshuttle" do
   desc "Cross-platform terminal command manager with global hotkeys"
   homepage "https://github.com/s00d/switchshuttle"
 
-  app "SwitchShuttle.app"
+  app "switch-shuttle.app"
 
   postflight do
-    system_command "chmod", args: ["+x", "/Applications/SwitchShuttle.app"]
-    system_command "xattr", args: ["-cr", "/Applications/SwitchShuttle.app"]
-    system_command "codesign", args: ["--force", "--deep", "--sign", "-", "/Applications/SwitchShuttle.app"]
+    system_command "chmod", args: ["+x", "/Applications/switch-shuttle.app"]
+    system_command "xattr", args: ["-cr", "/Applications/switch-shuttle.app"]
+    system_command "codesign", args: ["--force", "--deep", "--sign", "-", "/Applications/switch-shuttle.app"]
   end
 
   # Раскомментируйте следующие строки, если хотите удалять конфигурацию при uninstall
