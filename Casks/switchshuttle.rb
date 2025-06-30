@@ -3,10 +3,10 @@ cask "switchshuttle" do
 
   if Hardware::CPU.intel?
     url "https://github.com/s00d/switchshuttle/releases/download/app-v#{version}/switch-shuttle_#{version}_x64.dmg"
-    sha256 "421d0a2d84b78235920b04e6f4761de31681d86c5ec4cf174cf05921d5762bf8"
+    sha256 "577d8c44aa5e62f9aef61273548b5f102dc8cf02344639708f9aa81a9413b5f2"
   else
     url "https://github.com/s00d/switchshuttle/releases/download/app-v#{version}/switch-shuttle_#{version}_aarch64.dmg"
-    sha256 "95bf3af6e156007dfafbfb0fa4fdf5da04c0e4320ff0e307cdbad344cf6f5253"
+    sha256 "421d0a2d84b78235920b04e6f4761de31681d86c5ec4cf174cf05921d5762bf8"
   end
 
   name "SwitchShuttle"
