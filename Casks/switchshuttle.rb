@@ -1,12 +1,12 @@
 cask "switchshuttle" do
-  version "1.5.1"
+  version "1.5.2"
 
   if Hardware::CPU.intel?
     url "https://github.com/s00d/switchshuttle/releases/download/app-v#{version}/switch-shuttle_#{version}_x64.dmg"
-    sha256 "577d8c44aa5e62f9aef61273548b5f102dc8cf02344639708f9aa81a9413b5f2"
+    sha256 "9b60cbb00df48420f156c5fc93bcdae452f729a22794fa00ae66dd78434d0d23"
   else
     url "https://github.com/s00d/switchshuttle/releases/download/app-v#{version}/switch-shuttle_#{version}_aarch64.dmg"
-    sha256 "421d0a2d84b78235920b04e6f4761de31681d86c5ec4cf174cf05921d5762bf8"
+    sha256 "9280e9e946836947f40c902e2d83fb6253d878ed0c8fb5f7f4db4dca4edce086"
   end
 
   name "SwitchShuttle"
