@@ -1,8 +1,8 @@
 cask "switchshuttle" do
-  version "1.5.5"
+  version "1.6.0"
 
   url "https://github.com/s00d/switchshuttle/releases/download/app-v#{version}/switch-shuttle_#{version}_universal.dmg"
-  sha256 "b3a94ebaf4e45af1b61f42e92d68336aa39bc8a33d301948d9828177a544e80f"
+  sha256 "049fa28da492b13b53f82ceb6b7dc5c547672b9e195544dca3ff71ce36b39266"
 
   name "SwitchShuttle"
   desc "Cross-platform terminal command manager with global hotkeys - organize, customize, and quickly access your most-used terminal operations with a sleek interface"
