@@ -14,16 +14,15 @@ cask "switchshuttle" do
     terminate_process "switch-shuttle", match: :full
   end
 
-  # Homebrew seatbelt forbids LaunchServices (`open` / `lsregister`) inside
-  # postflight_steps — that is what caused kLSNoExecutableErr (-10827).
-  # Official pattern (OrbStack, Keybase, Parallels): `run` the Mach-O / helper
-  # directly. Background with nohup so brew does not wait on the tray app.
-  # See: https://docs.brew.sh/Cask-Cookbook#cask-artifact-trust-and-sandboxing
-  postflight_steps do
-    run "/bin/bash", args: [
-      "-c",
-      'nohup "{{appdir}}/switch-shuttle.app/Contents/MacOS/SwitchShuttle" >/dev/null 2>&1 &',
-    ]
+  # Do NOT launch Contents/MacOS/* under postflight_steps: that starts the
+  # Mach-O without Launch Services, and AppKit aborts in RegisterApplication
+  # (works only when the .app is opened via Finder / `open`).
+  # Do NOT use `open` inside sandboxed postflight_steps either (kLSNoExecutableErr).
+  # Classic postflight is still allowed for third-party taps and runs unsandboxed.
+  postflight do
+    system_command "/usr/bin/open",
+                   args:         ["#{appdir}/switch-shuttle.app"],
+                   must_succeed: false
   end
 
   caveats <<~EOS
