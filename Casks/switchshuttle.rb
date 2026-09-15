@@ -14,12 +14,14 @@ cask "switchshuttle" do
     terminate_process "switch-shuttle", match: :full
   end
 
-  # Do NOT launch Contents/MacOS/* under postflight_steps: that starts the
-  # Mach-O without Launch Services, and AppKit aborts in RegisterApplication
-  # (works only when the .app is opened via Finder / `open`).
-  # Do NOT use `open` inside sandboxed postflight_steps either (kLSNoExecutableErr).
-  # Classic postflight is still allowed for third-party taps and runs unsandboxed.
+  # App is Developer ID + notarized + stapled. Homebrew still stamps
+  # com.apple.quarantine on the downloaded DMG payload, which triggers
+  # Gatekeeper's "Apple could not verify…" on first open.
+  # Strip quarantine in classic (unsandboxed) postflight, then launch via LS.
   postflight do
+    system_command "/usr/bin/xattr",
+                   args:         ["-cr", "#{appdir}/switch-shuttle.app"],
+                   must_succeed: false
     system_command "/usr/bin/open",
                    args:         ["#{appdir}/switch-shuttle.app"],
                    must_succeed: false
