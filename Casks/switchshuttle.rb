@@ -10,12 +10,17 @@ cask "switchshuttle" do
 
   app "switch-shuttle.app"
 
+  # Sandboxed install-steps DSL — fine for pkill-style helpers.
   preflight_steps do
     terminate_process "switch-shuttle", match: :full
   end
 
-  postflight_steps do
-    run "/usr/bin/open", args: ["{{appdir}}/switch-shuttle.app"]
+  # Launch must NOT use postflight_steps: those run inside Homebrew's seatbelt
+  # sandbox, and `/usr/bin/open` then fails with kLSNoExecutableErr (-10827)
+  # even though the .app is notarized and opens fine from Finder/Terminal.
+  # Classic postflight runs unsandboxed (same as pre-migration).
+  postflight do
+    system_command "/usr/bin/open", args: ["#{appdir}/switch-shuttle.app"]
   end
 
   # Uncomment the following lines if you want to remove configuration on uninstall
