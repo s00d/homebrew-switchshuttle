@@ -21,10 +21,10 @@ cask "switchshuttle" do
   # RegisterApplication without a proper .app launch.
   postflight_steps do
     run "/usr/bin/xattr",
-        args:            ["-dr", "com.apple.quarantine", "{{appdir}}/switch-shuttle.app"],
-        writable_paths:  ["switch-shuttle.app"],
-        writable_base:   :appdir,
-        must_succeed:    false
+        args:           ["-dr", "com.apple.quarantine", "{{appdir}}/switch-shuttle.app"],
+        writable_paths: ["switch-shuttle.app"],
+        writable_base:  :appdir,
+        must_succeed:   false
   end
 
   caveats <<~EOS
