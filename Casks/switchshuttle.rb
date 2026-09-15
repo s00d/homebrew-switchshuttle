@@ -10,16 +10,12 @@ cask "switchshuttle" do
 
   app "switch-shuttle.app"
 
-  preflight do
-    system_command "pkill", args: ["-f", "switch-shuttle"], must_succeed: false
+  preflight_steps do
+    terminate_process "switch-shuttle", match: :full
   end
 
-  postflight do
-    system_command "chmod", args: ["+x", "/Applications/switch-shuttle.app"]
-    system_command "xattr", args: ["-cr", "/Applications/switch-shuttle.app"]
-    system_command "codesign", args: ["--force", "--deep", "--sign", "-", "/Applications/switch-shuttle.app"]
-    
-    system_command "open", args: ["/Applications/switch-shuttle.app"]
+  postflight_steps do
+    run "/usr/bin/open", args: ["{{appdir}}/switch-shuttle.app"]
   end
 
   # Uncomment the following lines if you want to remove configuration on uninstall
