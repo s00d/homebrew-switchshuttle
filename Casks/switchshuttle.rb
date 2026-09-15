@@ -10,24 +10,24 @@ cask "switchshuttle" do
 
   app "switch-shuttle.app"
 
-  # Sandboxed install-steps DSL — fine for pkill-style helpers.
   preflight_steps do
     terminate_process "switch-shuttle", match: :full
   end
 
-  # Launch must NOT use postflight_steps: those run inside Homebrew's seatbelt
-  # sandbox, and `/usr/bin/open` then fails with kLSNoExecutableErr (-10827)
-  # even though the .app is notarized and opens fine from Finder/Terminal.
-  # Classic postflight runs unsandboxed (same as pre-migration).
-  postflight do
-    system_command "/usr/bin/open", args: ["#{appdir}/switch-shuttle.app"]
+  # Homebrew seatbelt forbids LaunchServices (`open` / `lsregister`) inside
+  # postflight_steps — that is what caused kLSNoExecutableErr (-10827).
+  # Official pattern (OrbStack, Keybase, Parallels): `run` the Mach-O / helper
+  # directly. Background with nohup so brew does not wait on the tray app.
+  # See: https://docs.brew.sh/Cask-Cookbook#cask-artifact-trust-and-sandboxing
+  postflight_steps do
+    run "/bin/bash", args: [
+      "-c",
+      'nohup "{{appdir}}/switch-shuttle.app/Contents/MacOS/SwitchShuttle" >/dev/null 2>&1 &',
+    ]
   end
 
-  # Uncomment the following lines if you want to remove configuration on uninstall
-  # zap trash: [
-  #   "~/.config/switch-shuttle",
-  #   "~/Library/Application Support/switch-shuttle",
-  #   "~/Library/Preferences/com.SwitchShuttle.app.plist",
-  #   "~/Library/Saved Application State/com.SwitchShuttle.app.savedState"
-  # ]
+  caveats <<~EOS
+    SwitchShuttle runs from the menu bar (system tray).
+    If it did not appear after install, open it once from Applications.
+  EOS
 end
