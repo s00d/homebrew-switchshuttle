@@ -15,20 +15,20 @@ cask "switchshuttle" do
   end
 
   # App is Developer ID + notarized + stapled. Homebrew still stamps
-  # com.apple.quarantine on the downloaded DMG payload, which triggers
-  # Gatekeeper's "Apple could not verify…" on first open.
-  # Strip quarantine in classic (unsandboxed) postflight, then launch via LS.
-  postflight do
-    system_command "/usr/bin/xattr",
-                   args:         ["-cr", "#{appdir}/switch-shuttle.app"],
-                   must_succeed: false
-    system_command "/usr/bin/open",
-                   args:         ["#{appdir}/switch-shuttle.app"],
-                   must_succeed: false
+  # com.apple.quarantine on the DMG payload → Gatekeeper "could not verify".
+  # Clear quarantine here. Do NOT call /usr/bin/open: seatbelt denies LS
+  # (kLSNoExecutableErr). Do NOT exec Contents/MacOS/*: AppKit aborts in
+  # RegisterApplication without a proper .app launch.
+  postflight_steps do
+    run "/usr/bin/xattr",
+        args:            ["-dr", "com.apple.quarantine", "{{appdir}}/switch-shuttle.app"],
+        writable_paths:  ["switch-shuttle.app"],
+        writable_base:   :appdir,
+        must_succeed:    false
   end
 
   caveats <<~EOS
     SwitchShuttle runs from the menu bar (system tray).
-    If it did not appear after install, open it once from Applications.
+    Open it once from Applications (or Spotlight) after install.
   EOS
 end
