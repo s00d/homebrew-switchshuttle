@@ -1,6 +1,6 @@
 cask "switchshuttle" do
-  version "2.3.0"
-  sha256 "ecbf88285b487572510a3c3ac406c6db1bd532a8c699d236c75c2158cdb70ffc"
+  version "2.3.1"
+  sha256 "a322aebbaf18ff5661e255a526b5f617823cecd780e3a16cc00a0f08afd3817b"
 
   url "https://github.com/s00d/switchshuttle/releases/download/app-v#{version}/switch-shuttle_#{version}_universal.dmg"
   name "SwitchShuttle"
